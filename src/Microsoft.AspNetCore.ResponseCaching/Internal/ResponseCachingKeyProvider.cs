@@ -119,7 +119,7 @@ namespace Microsoft.AspNetCore.ResponseCaching.Internal
                     for (var i = 0; i < varyByRules.Headers.Count; i++)
                     {
                         var header = varyByRules.Headers[i];
-                        var headerValues = context.HttpContext.Request.Headers[header];
+                        var headerValues = request.Headers[header];
                         builder.Append(KeyDelimiter)
                             .Append(header)
                             .Append("=");
@@ -144,7 +144,7 @@ namespace Microsoft.AspNetCore.ResponseCaching.Internal
                     if (varyByRules.QueryKeys.Count == 1 && string.Equals(varyByRules.QueryKeys[0], "*", StringComparison.Ordinal))
                     {
                         // Vary by all available query keys
-                        var queryArray = context.HttpContext.Request.Query.ToArray();
+                        var queryArray = request.Query.ToArray();
                         // Query keys are aggregated case-insensitively whereas the query values are compared ordinally.
                         Array.Sort(queryArray, QueryKeyComparer.OrdinalIgnoreCase);
 
@@ -173,7 +173,7 @@ namespace Microsoft.AspNetCore.ResponseCaching.Internal
                         for (var i = 0; i < varyByRules.QueryKeys.Count; i++)
                         {
                             var queryKey = varyByRules.QueryKeys[i];
-                            var queryKeyValues = context.HttpContext.Request.Query[queryKey];
+                            var queryKeyValues = request.Query[queryKey];
                             builder.Append(KeyDelimiter)
                                 .Append(queryKey)
                                 .Append("=");
